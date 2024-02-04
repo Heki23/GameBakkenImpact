@@ -55,13 +55,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Character\Aether.cs" />
-    <Compile Include="Character\Albedo.cs" />
+    <Compile Include="Characters\Aether.cs" />
+    <Compile Include="Characters\Albedo.cs" />
     <Compile Include="traps\Bombe.cs" />
     <Compile Include="GameOver.cs" />
-    <Compile Include="Character\RadienShogun.cs" />
+    <Compile Include="Characters\RadienShogun.cs" />
     <Compile Include="Spieler.cs" />
-    <Compile Include="Character\YaeMiko.cs" />
+    <Compile Include="Characters\YaeMiko.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -117,10 +117,10 @@
     <Resource Include="Icon\Yae_Miko_Item.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Character\Aether.png" />
-    <Resource Include="Character\Albedo.png" />
-    <Resource Include="Character\RaidenShogun.png" />
-    <Resource Include="Character\YaeMiko.png" />
+    <Resource Include="Characters\Aether.png" />
+    <Resource Include="Characters\Albedo.png" />
+    <Resource Include="Characters\RaidenShogun.png" />
+    <Resource Include="Characters\YaeMiko.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="traps\genshin-klee-bomb.png" />
@@ -133,6 +133,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Exit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="replay.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,30 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
+using System.Windows;
+using System;
 
-namespace Vererben4__Bakken_
+public class GameOver
 {
-    internal class GameOver : Spieler
+    protected Grid gameOverFenster;
+    public Grid GameOverFenster
     {
-        public GameOver() : base()
+        get { return gameOverFenster; }
+        set { gameOverFenster = value; }
+    }
+    //notwendig, wenn man auf Elemente oder Eigenschaften der MainWindow zugreifen möchtest 
+    public GameOver()
+    {
+        gameOverFenster = new Grid();
+
+        Rectangle rec = new Rectangle()
         {
-            Rectangle rec = new Rectangle()
-            {
-                Width = 200,
-                Height = 200,
-                Fill = Brushes.Green,
-                Stroke = Brushes.Red,
-                StrokeThickness = 2,
-            };
-            spielerMalen.ImageSource = new BitmapImage(new Uri(@"gameover.png", UriKind.Relative));
-            canvasSpieler.Width = 810;
-            canvasSpieler.Height = 400;
-        }
+            Fill = Brushes.White,
+            Stroke = Brushes.Black,
+            StrokeThickness = 2,
+            Opacity = 0.8,
+        };
+        // Erstelle ein TextBlock mit dem gewünschten Text
+        TextBlock textBlock = new TextBlock()
+        {
+            Text = "Game Over",
+            FontSize = 50,
+            FontWeight = FontWeights.Bold,
+            Foreground = Brushes.Black,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
+            Margin = new Thickness(0, 0, 0, 100),
+        };
+     
+        //Große von Grid Fenstgelegt
+        gameOverFenster.Width = 600;
+        gameOverFenster.Height = 400;
+        //Rectangle in Grid eingefügt
+        gameOverFenster.Children.Add(rec);
+        //Text in Grid eingefügt
+        gameOverFenster.Children.Add(textBlock);
     }
 }

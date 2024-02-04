@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,19 +29,20 @@ namespace Vererben4__Bakken_
         private Albedo albedo = new Albedo();
         private RadienShogun radienShogun = new RadienShogun();
         private YaeMiko yaeMiko = new YaeMiko();
-        private GameOver gameover = new GameOver();
         private Bombe bombe = new Bombe();
         private DispatcherTimer timer = new DispatcherTimer();
         private double counter;
         private int xchange = 1;
-        
+        private GameOver gameOver = new GameOver();
+
         public MainWindow()
         {
             InitializeComponent();
             timer.Tick += new EventHandler(Timer_Tick);
-            timer.Interval = TimeSpan.FromSeconds(0.05);
+            timer.Interval = TimeSpan.FromSeconds(0.1);
             timer.Tick += Timer_Tick;
-            
+            gameOver = new GameOver();
+
         }
         private void Timer_Tick(object sender, EventArgs e)
         {
@@ -111,9 +113,11 @@ namespace Vererben4__Bakken_
             {
 
                 timer.Stop();
-                CanvesSpielerContainer.Children.Clear();
-                CanvesSpielerContainer.Children.Add(gameover.CanvasSpieler);
               
+                MainGrid.Children.Remove(gameOver.GameOverFenster);
+                CanvesSpielerContainer.Children.Clear();
+                MainGrid.Children.Add(gameOver.GameOverFenster);
+
             }
             if (Canvas.GetLeft(albedo.CanvasSpieler) + albedo.CanvasSpieler.ActualWidth >= Canvas.GetLeft(bombe.CanvasSpieler)
             && Canvas.GetLeft(albedo.CanvasSpieler) <= Canvas.GetLeft(bombe.CanvasSpieler) + bombe.CanvasSpieler.ActualWidth
@@ -122,8 +126,9 @@ namespace Vererben4__Bakken_
             {
 
                 timer.Stop();
+                MainGrid.Children.Remove(gameOver.GameOverFenster);
                 CanvesSpielerContainer.Children.Clear();
-                CanvesSpielerContainer.Children.Add(gameover.CanvasSpieler);
+                MainGrid.Children.Add(gameOver.GameOverFenster);
             }
             if (Canvas.GetLeft(radienShogun.CanvasSpieler) + radienShogun.CanvasSpieler.ActualWidth >= Canvas.GetLeft(bombe.CanvasSpieler)
             && Canvas.GetLeft(radienShogun.CanvasSpieler) <= Canvas.GetLeft(bombe.CanvasSpieler) + bombe.CanvasSpieler.ActualWidth
@@ -132,8 +137,9 @@ namespace Vererben4__Bakken_
             {
 
                 timer.Stop();
+                MainGrid.Children.Remove(gameOver.GameOverFenster);
                 CanvesSpielerContainer.Children.Clear();
-                CanvesSpielerContainer.Children.Add(gameover.CanvasSpieler);
+                MainGrid.Children.Add(gameOver.GameOverFenster);
             }
             if (Canvas.GetLeft(yaeMiko.CanvasSpieler) + yaeMiko.CanvasSpieler.ActualWidth >= Canvas.GetLeft(bombe.CanvasSpieler)
             && Canvas.GetLeft(yaeMiko.CanvasSpieler) <= Canvas.GetLeft(bombe.CanvasSpieler) + bombe.CanvasSpieler.ActualWidth
@@ -142,13 +148,64 @@ namespace Vererben4__Bakken_
             {
 
                 timer.Stop();
+                MainGrid.Children.Remove(gameOver.GameOverFenster);
                 CanvesSpielerContainer.Children.Clear();
-                CanvesSpielerContainer.Children.Add(gameover.CanvasSpieler);
+                MainGrid.Children.Add(gameOver.GameOverFenster);
             }
-           #endregion
+            #endregion
+            #region Wenn Charakter Loch berührt
+            //React wird verwendet, um die Position und Größe eines Rechtecks auf einer Oberfläche zu beschreiben
+            // Rect verwendet, um zu überprüfen, ob die Rechtecke des aether.CanvasSpieler und des Loch sich schneiden
+            Rect aetherRect = new Rect(Canvas.GetLeft(aether.CanvasSpieler), Canvas.GetTop(aether.CanvasSpieler), aether.CanvasSpieler.ActualWidth, aether.CanvasSpieler.ActualHeight);
+            Rect holeRect = new Rect(Canvas.GetLeft(Loch), Canvas.GetTop(Loch), Loch.Width, Loch.Height);
 
+            if (aetherRect.IntersectsWith(holeRect))
+            {
+                timer.Stop();
+                CanvesSpielerContainer.Children.Clear();
+                MainGrid.Children.Clear();
+                MainGrid.Children.Add(gameOver.GameOverFenster);
+                replayButtonErstellen();
+            }
+            Rect albedoRect = new Rect(Canvas.GetLeft(albedo.CanvasSpieler), Canvas.GetTop(albedo.CanvasSpieler), 
+                albedo.CanvasSpieler.ActualWidth, albedo.CanvasSpieler.ActualHeight);
+
+            if (albedoRect.IntersectsWith(holeRect))
+            {
+                timer.Stop();
+                CanvesSpielerContainer.Children.Clear();
+                MainGrid.Children.Clear();
+                MainGrid.Children.Add(gameOver.GameOverFenster);
+                replayButtonErstellen();
+            }
+
+            Rect radienShogunRect = new Rect(Canvas.GetLeft(radienShogun.CanvasSpieler), Canvas.GetTop(radienShogun.CanvasSpieler),
+                radienShogun.CanvasSpieler.ActualWidth, radienShogun.CanvasSpieler.ActualHeight);
+
+
+            if (radienShogunRect.IntersectsWith(holeRect))
+            {
+                timer.Stop();
+                CanvesSpielerContainer.Children.Clear();
+                MainGrid.Children.Clear();
+                MainGrid.Children.Add(gameOver.GameOverFenster);
+                replayButtonErstellen();
+            }
+            Rect yaeMikoRect = new Rect(Canvas.GetLeft(yaeMiko.CanvasSpieler), Canvas.GetTop(yaeMiko.CanvasSpieler),
+                yaeMiko.CanvasSpieler.ActualWidth, yaeMiko.CanvasSpieler.ActualHeight);
+
+            if (yaeMikoRect.IntersectsWith(holeRect))
+            {
+                timer.Stop();
+                CanvesSpielerContainer.Children.Clear();
+                MainGrid.Children.Clear();
+                MainGrid.Children.Add(gameOver.GameOverFenster);
+                replayButtonErstellen();
+            }
+            #endregion
         }
-        #region KeyControl erstellt
+       
+        #region Charakter KeyControl 
         private void Canvas_KeyDown(object sender, KeyEventArgs e)
         {
             if (CanvesSpielerContainer.Children.Contains(aether.CanvasSpieler))
@@ -189,12 +246,8 @@ namespace Vererben4__Bakken_
                 {
                     aether.CanvasSpieler.SetValue(Canvas.TopProperty, aether.Posy = 275);
                 }
-                if (aether.Posy > 270 && aether.Posx < 300)
-                {
-                    timer.Stop();
-                    CanvesSpielerContainer.Children.Clear();
-                    CanvesSpielerContainer.Children.Add(gameover.CanvasSpieler);      
-                }
+             
+
             }
             if (CanvesSpielerContainer.Children.Contains(albedo.CanvasSpieler))
             {
@@ -232,13 +285,7 @@ namespace Vererben4__Bakken_
                 if (albedo.Posy > 275)
                 {
                     albedo.CanvasSpieler.SetValue(Canvas.TopProperty, albedo.Posy = 275);
-                }
-                if (albedo.Posy > 270 && albedo.Posx < 300)
-                {
-                    timer.Stop();
-                    CanvesSpielerContainer.Children.Clear();
-                    CanvesSpielerContainer.Children.Add(gameover.CanvasSpieler);
-                }
+                }         
             }
             if (CanvesSpielerContainer.Children.Contains(radienShogun.CanvasSpieler))
             {
@@ -276,12 +323,6 @@ namespace Vererben4__Bakken_
                 if (radienShogun.Posy > 275)
                 {
                     radienShogun.CanvasSpieler.SetValue(Canvas.TopProperty, radienShogun.Posy = 275);
-                }
-                if (radienShogun.Posy > 270 && radienShogun.Posx < 300)
-                {
-                    timer.Stop();
-                    CanvesSpielerContainer.Children.Clear();
-                    CanvesSpielerContainer.Children.Add(gameover.CanvasSpieler);
                 }
             }
             if (CanvesSpielerContainer.Children.Contains(yaeMiko.CanvasSpieler))
@@ -321,19 +362,16 @@ namespace Vererben4__Bakken_
                 {
                     yaeMiko.CanvasSpieler.SetValue(Canvas.TopProperty, yaeMiko.Posy = 275);
                 }
-                if (yaeMiko.Posy > 270 && yaeMiko.Posx < 300)
-                {
-                    timer.Stop();
-                    CanvesSpielerContainer.Children.Clear();
-                    CanvesSpielerContainer.Children.Add(gameover.CanvasSpieler);
-                }
             }
             #endregion
         }
 
-
+        #region Charkter in Canvas erstellen
         private void LblAether_MD(object sender, MouseButtonEventArgs e)
         {
+            //Warnung wegen zu machen falls gibt
+            MainGrid.Children.Clear();
+            //Hier bekommt Charakter die Position bei spawn
             aether.Zeichnen();
             CanvesSpielerContainer.Children.Clear();//löschte vorherige Figur und bombe
             CanvesSpielerContainer.Children.Add(aether.CanvasSpieler);
@@ -341,48 +379,142 @@ namespace Vererben4__Bakken_
 
         private void LblAlbedo_MD(object sender, MouseButtonEventArgs e)
         {
+            MainGrid.Children.Clear();
             albedo.Zeichnen();
             CanvesSpielerContainer.Children.Clear();
             CanvesSpielerContainer.Children.Add(albedo.CanvasSpieler);
-
         }
 
         private void LblRadienShogun_MD(object sender, MouseButtonEventArgs e)
         {
+            MainGrid.Children.Clear();
             radienShogun.Zeichnen();
             CanvesSpielerContainer.Children.Clear();
             CanvesSpielerContainer.Children.Add(radienShogun.CanvasSpieler);
-
-
         }
 
         private void LblYaeMiko_MD(object sender, MouseButtonEventArgs e)
         {
+            MainGrid.Children.Clear();
             yaeMiko.Zeichnen();
             CanvesSpielerContainer.Children.Clear();
             CanvesSpielerContainer.Children.Add(yaeMiko.CanvasSpieler);
-
         }
+        #endregion
 
+        #region start button
         private void Start_Click(object sender, RoutedEventArgs e)
         {
-            timer.Start();
-            bombe.Zeichnen();
-            CanvesSpielerContainer.Children.Add(bombe.CanvasSpieler);
-
+            MainGrid.Children.Clear();
 
             if (CanvesSpielerContainer.Children.Count > 0)
-            { 
-            Container.Children.Remove(LblAether);
-            Container.Children.Remove(LblAlbedo);
-            Container.Children.Remove(LblRaidenShogun);
-            Container.Children.Remove(LblYaeMiko);
-            Name.Visibility = Visibility.Hidden;
-            Loch.Visibility = Visibility.Visible;
-            StartButton.Visibility = Visibility.Visible;
+            {
+                timer.Start();
+                bombe.Zeichnen();
+                CanvesSpielerContainer.Children.Add(bombe.CanvasSpieler);
+                Container.Children.Remove(LblAether);
+
+                Container.Children.Remove(LblAlbedo);
+                Container.Children.Remove(LblRaidenShogun);
+                Container.Children.Remove(LblYaeMiko);
+                Name.Visibility = Visibility.Hidden;
+                Loch.Visibility = Visibility.Visible;
+                //Position von Start Button geändert mit hide geht nicht
+                Canvas.SetLeft(StartButton, 1000);
+                Canvas.SetTop(StartButton, 1000);
             }
+            else
+            {
+                TextBlock CharacterChooseWarning = new TextBlock()
+                {
+                    Text = "Bitte wählen Sie einen Charakter aus!",
+                    FontSize = 20,
+                    FontWeight = FontWeights.Bold,
+                    Foreground = Brushes.White,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center,
+                };
+                MainGrid.Children.Add(CharacterChooseWarning);
+               
+               
+            }
+          
+        }
+        #endregion
+
+        #region replay button erstellen und in MainWindow einfügen
+        private void replayButtonErstellen()
+        {
+            Button replaybutton = new Button()
+            {
+                Width = 102,
+                Height = 102,
+                VerticalAlignment = VerticalAlignment.Bottom,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                BorderBrush = null,
+                Margin = new Thickness(0, 0, 0, 40),
+            };
+
+            // Füge das Bild als Hintergrund hinzu
+            replaybutton.Background = new ImageBrush()
+            {
+                ImageSource = new BitmapImage(new Uri(@"replay.png", UriKind.Relative)),
+                Stretch = Stretch.UniformToFill // Dies stellt sicher, dass das Bild den gesamten Button abdeckt
+            };
+
+            // Füge das Bild auch als Content hinzu, um es sichtbar zu machen
+            replaybutton.Content = new Image()
+            {
+                Source = new BitmapImage(new Uri(@"replay.png", UriKind.Relative)),
+                Width = 100,
+                Height = 100
+            };
+
+            // Füge den EventHandler für den Click-Event hinzu
+            replaybutton.Click += replay_Click;
+
+            MainGrid.Children.Add(replaybutton);
+        }
+        #endregion
+        #region replay button
+        public void replay_Click(object sender, RoutedEventArgs e)
+        {
+            ResetTimer();
+            MainGrid.Children.Clear();
+
+            Canvas.SetLeft(Container, 250);
+            Canvas.SetTop(Container, 110);
+            Container.Children.Add(LblAether);
+            Container.Children.Add(LblAlbedo);
+            Container.Children.Add(LblRaidenShogun);
+            Container.Children.Add(LblYaeMiko);
+            
+            //Position von Start Button geändert mit hide geht nicht
+            Canvas.SetLeft(StartButton, 300);
+            Canvas.SetTop(StartButton, 350);
+
+            //Charakter Position geändert
+            aether.Posx = 550;
+            aether.Posy = 90;
+
+            albedo.Posx = 550;
+            albedo.Posy = 90;
+
+            radienShogun.Posx = 550;
+            radienShogun.Posy = 90;
+
+            yaeMiko.Posx = 550;
+            yaeMiko.Posy = 90;
 
         }
+        #endregion
+
+        private void ResetTimer()
+        {
+            
+        }
+
+
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {

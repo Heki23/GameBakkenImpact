@@ -38,11 +38,15 @@
                 </Label>
 
             </WrapPanel>
+            <!-- Hier kommt meine Objekte(Charakter)-->
             <Canvas x:Name="CanvesSpielerContainer"/>
-            <Button Style="{DynamicResource ButtonRounded}" x:Name="StartButton" Content="Start" Height="41" Canvas.Left="306" Canvas.Top="337" Width="198" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" FontFamily="Bahnschrift Light" Click="Start_Click" />
             <Button x:Name="Exit" Content="Exit" Height="32" Canvas.Left="744" Canvas.Top="371" Width="56" FontSize="20" FontFamily="Bahnschrift SemiBold" Click="Exit_Click" HorizontalAlignment="Center" VerticalAlignment="Top" Style="{DynamicResource ButtonRounded}" Opacity="0.8" Background="{x:Null}" Foreground="White" BorderThickness="2" BorderBrush="White" FontWeight="Bold"/>
             <Label x:Name="Counter_Tick" Content="" Height="65" Canvas.Left="20" Canvas.Top="-6" Width="151" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="35" Foreground="White" FontFamily="Segoe UI Variable Text Semibold"/>
+            <Button Style="{DynamicResource ButtonRounded}" x:Name="StartButton" Content="Start" Height="41" Canvas.Left="306" Canvas.Top="337" Width="198" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" FontFamily="Bahnschrift Light" Click="Start_Click" Focusable="True" />
         </Canvas>
+        <!-- Hier kommt warung und gameover-->
+        <Grid x:Name="MainGrid"/>  
+       
     </Grid>
 
 </Window>
