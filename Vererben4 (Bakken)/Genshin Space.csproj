@@ -102,19 +102,19 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="SHintergrund.png" />
+    <Resource Include="Background\SHintergrund.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Icon\Aether_Item.png" />
+    <Resource Include="Characters\Icon\Aether_Item.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Icon\Albedo_Item.png" />
+    <Resource Include="Characters\Icon\Albedo_Item.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Icon\Raiden_Shogun_Item.png" />
+    <Resource Include="Characters\Icon\Raiden_Shogun_Item.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Icon\Yae_Miko_Item.png" />
+    <Resource Include="Characters\Icon\Yae_Miko_Item.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Characters\Aether.png" />
@@ -136,6 +136,22 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="replay.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="black-hole.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="background2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Background\background%281%29.jpg" />
+    <Resource Include="Background\background%282%29.jpg" />
+    <Resource Include="Background\background%283%29.jpg" />
+    <Resource Include="Background\background%284%29.jpg" />
+    <Resource Include="Background\background%285%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="LoadingScreen.mp3" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

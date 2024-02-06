@@ -12,8 +12,8 @@ namespace Vererben4__Bakken_
 {
     internal class Spieler
     {
-        protected double posx = 350;
-        protected double posy = 200;
+        protected double posx = 360;
+        protected double posy = 190;
         protected Canvas canvasSpieler;
         protected ImageBrush spielerMalen;
         protected int speed;
@@ -46,13 +46,17 @@ namespace Vererben4__Bakken_
         public Spieler(){
 
             canvasSpieler = new Canvas();
+            
             spielerMalen = new ImageBrush();
             //spielerMalen.ImageSource = new BitmapImage(new Uri(@"Aether.png",UriKind.Relative));
             canvasSpieler.Background = spielerMalen;//zeichnet die Figur
+            spielerMalen.Stretch = Stretch.UniformToFill;
             speed = -5;
             gravity = 5; 
-            canvasSpieler.Width = 70;
+            canvasSpieler.Width = 50;
             canvasSpieler.Height = 140;
+           
+            
         }
         public virtual void Zeichnen()//Basis
         {      //Polymorphismus

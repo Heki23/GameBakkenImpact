@@ -7,7 +7,7 @@ using System.Windows.Media.Imaging;
 
 namespace Vererben4__Bakken_
 {
-    internal class RadienShogun:Spieler
+    internal class RadienShogun : Spieler
     {
         public RadienShogun() : base()
         {
@@ -15,5 +15,6 @@ namespace Vererben4__Bakken_
             speed = -15;
             gravity = 5;
         }
+     
     }
 }

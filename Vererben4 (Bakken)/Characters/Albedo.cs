@@ -15,5 +15,6 @@ namespace Vererben4__Bakken_
             speed = -8;
             gravity = 5;
         }
+      
     }
 }
