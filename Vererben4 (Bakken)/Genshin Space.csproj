@@ -59,7 +59,7 @@
     <Compile Include="Characters\Albedo.cs" />
     <Compile Include="traps\Bombe.cs" />
     <Compile Include="GameOver.cs" />
-    <Compile Include="Characters\RadienShogun.cs" />
+    <Compile Include="Characters\RaidenShogun.cs" />
     <Compile Include="Spieler.cs" />
     <Compile Include="Characters\YaeMiko.cs" />
     <Page Include="MainWindow.xaml">
@@ -102,9 +102,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Background\SHintergrund.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Characters\Icon\Aether_Item.png" />
   </ItemGroup>
   <ItemGroup>
@@ -129,9 +126,6 @@
     <Resource Include="traps\slime.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="gameover.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Exit.png" />
   </ItemGroup>
   <ItemGroup>
@@ -144,13 +138,16 @@
     <Resource Include="background2.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="mute.png" />
+    <Resource Include="unmute.png" />
     <Resource Include="Background\background%281%29.jpg" />
     <Resource Include="Background\background%282%29.jpg" />
     <Resource Include="Background\background%283%29.jpg" />
     <Resource Include="Background\background%284%29.jpg" />
     <Resource Include="Background\background%285%29.png" />
-  </ItemGroup>
-  <ItemGroup>
+    <Resource Include="Background\SHintergrund.png" />
+    <Content Include="battlesound.mp3" />
+    <Resource Include="Background\loadingscreen.jpg" />
     <Content Include="LoadingScreen.mp3" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

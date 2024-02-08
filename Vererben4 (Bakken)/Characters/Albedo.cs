@@ -13,7 +13,7 @@ namespace Vererben4__Bakken_
         {
             spielerMalen.ImageSource = new BitmapImage(new Uri(@"Albedo.png", UriKind.Relative));
             speed = -8;
-            gravity = 5;
+            gravity = 4;
         }
       
     }

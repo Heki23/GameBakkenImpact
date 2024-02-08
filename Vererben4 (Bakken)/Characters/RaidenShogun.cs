@@ -7,13 +7,13 @@ using System.Windows.Media.Imaging;
 
 namespace Vererben4__Bakken_
 {
-    internal class RadienShogun : Spieler
+    internal class RaidenShogun : Spieler
     {
-        public RadienShogun() : base()
+        public RaidenShogun() : base()
         {
             spielerMalen.ImageSource = new BitmapImage(new Uri(@"RaidenShogun.png", UriKind.Relative));
             speed = -15;
-            gravity = 5;
+            gravity = 7;
         }
      
     }

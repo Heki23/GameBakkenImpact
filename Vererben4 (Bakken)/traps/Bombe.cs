@@ -14,7 +14,7 @@ namespace Vererben4__Bakken_
             canvasSpieler.Width = 60;
             canvasSpieler.Height = 50;
             spielerMalen.ImageSource = new BitmapImage(new Uri(@"slime.png", UriKind.Relative));
-            speed = 2;
+            speed = 5;
         }
         public override void Zeichnen()//Abgeleitet
         {

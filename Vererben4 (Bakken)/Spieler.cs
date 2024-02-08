@@ -12,11 +12,11 @@ namespace Vererben4__Bakken_
 {
     internal class Spieler
     {
-        protected double posx = 360;
-        protected double posy = 190;
+        protected double posx = 375;
+        protected double posy = 200;
         protected Canvas canvasSpieler;
         protected ImageBrush spielerMalen;
-        protected int speed;
+        protected double speed;
         protected int gravity;
 
         public Canvas CanvasSpieler
@@ -38,6 +38,7 @@ namespace Vererben4__Bakken_
         public double Speed
         {
             get { return speed; }
+            set { speed = value; }
         }
         public int Gravity
         {
