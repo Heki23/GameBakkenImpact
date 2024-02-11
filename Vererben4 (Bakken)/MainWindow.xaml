@@ -7,55 +7,24 @@
         mc:Ignorable="d"
         Title="Genshin Space" Height="450" Width="810"  ResizeMode="NoResize" ShowInTaskbar="False" >
     <Window.Resources>
-        <Style x:Key="FocusVisual">
-            <Setter Property="Control.Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
-        <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
-        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
-        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
-        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6"/>
-        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
-        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
-        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
-        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
-        <Style x:Key="mutebtnStyle" TargetType="{x:Type Button}">
-            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
-            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Padding" Value="1"/>
+        <Style x:Key="StartButton" TargetType="{x:Type Button}">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border x:Name="border" CornerRadius="20" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
                             <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </Border>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsDefaulted" Value="true">
-                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-                            </Trigger>
+
                             <Trigger Property="IsMouseOver" Value="true">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
+                                <Setter Property="Background" TargetName="border" Value="White"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="Black"/>
+                                <Setter Property="TextElement.Foreground" TargetName="border" Value="Black"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="true">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="false">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
-                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                                <Setter Property="Background" TargetName="border" Value="White"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="Black"/>
+                                <Setter Property="TextElement.Foreground" TargetName="border" Value="Black"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -75,7 +44,7 @@
             </Canvas.Background>
             <Label x:Name="Name" Content="Genshin Space" Height="81" Canvas.Left="16" Canvas.Top="10" Width="419" FontSize="48" FontWeight="ExtraBold" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Sitka Subheading Semibold" BorderBrush="#FF030303" Opacity="0.5" Background="{x:Null}"/>
             <Canvas x:Name="CanvasHole">
-                <Ellipse x:Name="Loch" Width="313" Height="68"  Canvas.Left="2" Canvas.Top="367" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="Hidden">
+                <Ellipse x:Name="Loch" Width="148" Height="54"  Canvas.Left="0" Canvas.Top="373" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="Hidden" >
                     <Ellipse.Fill>
                         <ImageBrush ImageSource="black-hole.png" Stretch="Fill"></ImageBrush>
                     </Ellipse.Fill>
@@ -106,31 +75,37 @@
                     <Label x:Name="LbGravityCharacterInfo" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" />
                 </Grid>
             </Grid>
-            <WrapPanel x:Name="Container" Width="320" Height="80" Canvas.Left="470" HorizontalAlignment="Left" VerticalAlignment="Top">
-                <Label x:Name="LblAether" Width="80" Height="80" Focusable="True" MouseEnter="LblAether_MouseEnter" MouseLeftButtonDown="LblAether_MD" MouseLeave="LblAether_MouseLeave" >
-                    <Label.Background>
-                        <ImageBrush ImageSource="/Characters/Icon/Aether_Item.png"/>
-                    </Label.Background>
-                </Label>
-                <Label x:Name="LblAlbedo" Width="80" Height="80" Focusable="True" MouseLeftButtonDown="LblAlbedo_MD" MouseEnter="LblAlbedo_MouseEnter" MouseLeave="LblAlbedo_MouseLeave" >
-                    <Label.Background>
-                        <ImageBrush ImageSource="/Characters/Icon/Albedo_Item.png"/>
-                    </Label.Background>
-                </Label>
-                <Label x:Name="LblRaidenShogun" Width="80" Height="80" Focusable="True" MouseLeftButtonDown="LblRaidenShogun_MD" MouseEnter="LblRaidenShogun_MouseEnter" MouseLeave="LblRaidenShogun_MouseLeave">
-                    <Label.Background>
-                        <ImageBrush ImageSource="/Characters/Icon/Raiden_Shogun_Item.png"/>
-                    </Label.Background>
-                </Label>
-                <Label x:Name="LblYaeMiko" Width="80" Height="80" Focusable="True" MouseLeftButtonDown="LblYaeMiko_MD" MouseEnter="LblYaeMiko_MouseEnter" MouseLeave="LblYaeMiko_MouseLeave">
-                    <Label.Background>
-                        <ImageBrush ImageSource="/Characters/Icon/Yae_Miko_Item.png"/>
-                    </Label.Background>
-                </Label>
+            <Grid x:Name="ContainerBorder" Canvas.Left="470">
+                <Border  CornerRadius="5" Background="Black" BorderBrush="Wheat" BorderThickness="2">
+                    <WrapPanel x:Name="Container" Width="320" Height="80"  HorizontalAlignment="Left" VerticalAlignment="Top" >
+                        <Label x:Name="LblAether" Width="80" Height="80" Focusable="True" MouseEnter="LblAether_MouseEnter" MouseLeftButtonDown="LblAether_MD" MouseLeave="LblAether_MouseLeave" >
+                            <Label.Background>
+                                <ImageBrush ImageSource="/Aether_Item.png" />
+                            </Label.Background>
+                        </Label>
+                        <Label x:Name="LblAlbedo" Width="80" Height="80" Focusable="True" MouseLeftButtonDown="LblAlbedo_MD" MouseEnter="LblAlbedo_MouseEnter" MouseLeave="LblAlbedo_MouseLeave" >
+                            <Label.Background>
+                                <ImageBrush ImageSource="/Albedo_Item.png"/>
+                            </Label.Background>
+                        </Label>
+                        <Label x:Name="LblRaidenShogun" Width="80" Height="80" Focusable="True" MouseLeftButtonDown="LblRaidenShogun_MD" MouseEnter="LblRaidenShogun_MouseEnter" MouseLeave="LblRaidenShogun_MouseLeave">
+                            <Label.Background>
+                                <ImageBrush ImageSource="/RaidenShogen_Item.png" />
+                            </Label.Background>
+                        </Label>
+                        <Label x:Name="LblYaeMiko" Width="80" Height="80" Focusable="True" MouseLeftButtonDown="LblYaeMiko_MD" MouseEnter="LblYaeMiko_MouseEnter" MouseLeave="LblYaeMiko_MouseLeave">
+                            <Label.Background>
+                                <ImageBrush ImageSource="/YaeMiko_Item.png"/>
+                            </Label.Background>
 
-            </WrapPanel>
+                        </Label>
+
+                    </WrapPanel>
+                </Border>
+                <Border x:Name="SelectedBorder" Height="76" Width="70" BorderBrush="Wheat" BorderThickness="2" CornerRadius="5"   HorizontalAlignment="Left" VerticalAlignment="Center" Margin="247,0,0,0" Visibility="Hidden"  />
+            </Grid>
+
             <!-- Hier kommt meine Objekte(Charakter)-->
-
             <Canvas x:Name="CanvesSpielerContainer"/>
             <Button x:Name="Exit" Height="35" Width="35" Canvas.Left="745" Canvas.Top="336"  Click="Exit_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource ButtonRounded}" Opacity="0.8" Foreground="White" BorderThickness="2" BorderBrush="{x:Null}" FontWeight="Bold" Background="White">
                 <Button.Content>
@@ -138,19 +113,51 @@
                 </Button.Content>
             </Button>
             <Label x:Name="Counter_Tick" Content="" Height="65" Canvas.Left="20" Canvas.Top="-6" Width="151" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="35" Foreground="White" FontFamily="Segoe UI Variable Text Semibold"/>
-            <Button  x:Name="StartButton" Content="CLICK TO BEGIN" Height="41" Canvas.Top="373"  Canvas.Left="0" Width="814" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="24" FontWeight="Bold" FontFamily="Bahnschrift Light" Click="Start_Click" Focusable="True" Foreground="White" Opacity="0.7" BorderBrush="{x:Null}">
+            <Button Style="{DynamicResource StartButton}"  x:Name="StartButton" Content="CLICK TO BEGIN" Height="41" Canvas.Top="373"  Canvas.Left="0" Width="814" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="24" FontWeight="Bold" FontFamily="Bahnschrift Light" Click="Start_Click" Focusable="True" Foreground="White" Opacity="0.7" BorderBrush="{x:Null}" ScrollViewer.VerticalScrollBarVisibility="Disabled">
                 <Button.Background>
-                    <RadialGradientBrush>
+                    <RadialGradientBrush MappingMode="RelativeToBoundingBox" SpreadMethod="Pad">
                         <GradientStop Color="#FF3A3A3A" Offset="1"/>
                         <GradientStop Color="Black" Offset="0.204"/>
                     </RadialGradientBrush>
                 </Button.Background>
+
             </Button>
-            <Button Style="{DynamicResource mutebtnStyle}" x:Name="MuteButton" Height="35" Width="35" Canvas.Left="745" Canvas.Top="296"  RenderTransformOrigin="-0.786,0.558" HorizontalAlignment="Center" VerticalAlignment="Top" BorderBrush="{x:Null}" Foreground="{x:Null}" Click="MuteBtn_Click" Background="White" Opacity="0.8">
+            <Button Style="{DynamicResource ButtonRounded}" x:Name="MuteButton" Height="35" Width="35" Canvas.Left="745" Canvas.Top="296"  RenderTransformOrigin="-0.786,0.558" HorizontalAlignment="Center" VerticalAlignment="Top" BorderBrush="{x:Null}" Foreground="{x:Null}" Click="MuteBtn_Click" Background="White" Opacity="0.8">
                 <Button.Content>
                     <Image Source="/unmute.png" Height="20"  Width="20"/>
                 </Button.Content>
             </Button>
+            <Button x:Name="DetailButton" Style="{DynamicResource ButtonRounded}" Background="Black" Height="45" Width="45" Canvas.Left="740" Canvas.Top="242" HorizontalAlignment="Center" VerticalAlignment="Top" ToolTip="Details" Click="DetailButton_Click">
+                <Button.Content>
+                    <Image Source="/detail icon.png" Height="40" Width="40"></Image>
+                </Button.Content>
+            </Button>
+            <Grid x:Name="GridDetails" Canvas.Left="545" Canvas.Top="212" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="Hidden">
+                <Rectangle  Width="190" Height="100" Fill="White" Stroke="Black" StrokeThickness="2" Opacity="0.8" Canvas.Left="597" Canvas.Top="97">
+                    <Rectangle.RadiusX>10</Rectangle.RadiusX>
+                    <Rectangle.RadiusY>10</Rectangle.RadiusY>
+                </Rectangle>
+                <Grid  Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Width="180" Height="70">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="90"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label  Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Developer:" FontWeight="Bold" FontSize="14" />
+                    <Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Content="Status:" FontWeight="Bold" FontSize="14" />
+
+
+                    <Label x:Name="LbDeveloper" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" FontSize="17" >
+                        <Hyperlink NavigateUri="https://github.com/Heki23" RequestNavigate="Hyperlink_RequestNavigate">
+                            Heki23
+                        </Hyperlink>
+                    </Label>
+                    <Label x:Name="LbStatus" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Content="Beta" FontSize="14" />
+                </Grid>
+            </Grid>
         </Canvas>
         <!-- Hier kommt warung und gameover-->
         <Grid x:Name="MainGrid"/>

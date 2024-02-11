@@ -12,8 +12,8 @@ namespace Vererben4__Bakken_
 {
     internal class Spieler
     {
-        protected double posx = 375;
-        protected double posy = 200;
+        protected double posx = 385;
+        protected double posy = 230;
         protected Canvas canvasSpieler;
         protected ImageBrush spielerMalen;
         protected double speed;
@@ -34,7 +34,6 @@ namespace Vererben4__Bakken_
             get { return posy; }
             set { posy = value; }
         }
-        
         public double Speed
         {
             get { return speed; }
@@ -53,9 +52,9 @@ namespace Vererben4__Bakken_
             canvasSpieler.Background = spielerMalen;//zeichnet die Figur
             spielerMalen.Stretch = Stretch.UniformToFill;
             speed = -5;
-            gravity = 5; 
-            canvasSpieler.Width = 50;
-            canvasSpieler.Height = 140;
+            gravity = 5;
+            canvasSpieler.Width = 40;
+            canvasSpieler.Height = 120;
            
             
         }

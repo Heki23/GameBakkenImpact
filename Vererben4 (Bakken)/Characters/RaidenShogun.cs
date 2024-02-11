@@ -12,7 +12,7 @@ namespace Vererben4__Bakken_
         public RaidenShogun() : base()
         {
             spielerMalen.ImageSource = new BitmapImage(new Uri(@"RaidenShogun.png", UriKind.Relative));
-            speed = -15;
+            speed = -17;
             gravity = 7;
         }
      

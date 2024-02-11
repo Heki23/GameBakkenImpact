@@ -8,9 +8,9 @@ using System.Windows.Media.Imaging;
 
 namespace Vererben4__Bakken_
 {
-    internal class Bombe:Spieler
+    internal class Enemy:Spieler
     {
-        public Bombe():base() {
+        public Enemy():base() {
             canvasSpieler.Width = 60;
             canvasSpieler.Height = 50;
             spielerMalen.ImageSource = new BitmapImage(new Uri(@"slime.png", UriKind.Relative));

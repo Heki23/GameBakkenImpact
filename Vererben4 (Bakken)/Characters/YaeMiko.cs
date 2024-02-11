@@ -12,7 +12,7 @@ namespace Vererben4__Bakken_
         public YaeMiko() : base()
         {
             spielerMalen.ImageSource = new BitmapImage(new Uri(@"YaeMiko.png", UriKind.Relative));
-            speed = -10;
+            speed = -13;
             gravity = 5;
         }
        

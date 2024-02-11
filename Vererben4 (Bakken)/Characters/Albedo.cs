@@ -12,7 +12,7 @@ namespace Vererben4__Bakken_
         public Albedo() : base()
         {
             spielerMalen.ImageSource = new BitmapImage(new Uri(@"Albedo.png", UriKind.Relative));
-            speed = -8;
+            speed = -10;
             gravity = 4;
         }
       

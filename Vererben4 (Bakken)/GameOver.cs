@@ -23,7 +23,9 @@ public class GameOver
             Stroke = Brushes.Black,
             StrokeThickness = 2,
             Opacity = 0.8,
+         
         };
+    
         // Erstelle ein TextBlock mit dem gewünschten Text
         TextBlock textBlock = new TextBlock()
         {

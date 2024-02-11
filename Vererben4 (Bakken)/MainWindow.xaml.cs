@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
@@ -17,6 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Xml;
 using Vererben4__Bakken_;
 
 namespace Vererben4__Bakken_
@@ -30,7 +32,7 @@ namespace Vererben4__Bakken_
         private Albedo albedo = new Albedo();
         private RaidenShogun raidenShogun = new RaidenShogun();
         private YaeMiko yaeMiko = new YaeMiko();
-        private Bombe bombe = new Bombe();
+        private Enemy enemy = new Enemy();
         private DispatcherTimer timer = new DispatcherTimer();
         private double counter;
         private double timerCounter;
@@ -39,7 +41,7 @@ namespace Vererben4__Bakken_
         private object currentCharacter; // Hier speichern wir das aktuelle Charakterobjekt
         private string currentCharacterName;
         private bool charakterInfoPostionChange = false;
-   
+
         public MainWindow()
         {
             InitializeComponent();
@@ -49,9 +51,8 @@ namespace Vererben4__Bakken_
             musicPlayer.Play();
             musicPlayer.Source = new Uri("LoadingScreen.mp3", UriKind.Relative);
             timerCounter = 0;
-            
         }
-  
+
 
         private void Timer_Tick(object sender, EventArgs e)
         {
@@ -67,45 +68,53 @@ namespace Vererben4__Bakken_
                 Counter_Tick.Content = Convert.ToString(counter);
             }
 
-             (((Spieler)currentCharacter)).Posy = (double)((Spieler)currentCharacter).CanvasSpieler.GetValue(Canvas.TopProperty);//aktuelle Wert wird ermittelt
+            #region Gravity
+             ((Spieler)currentCharacter).Posy = (double)((Spieler)currentCharacter).CanvasSpieler.GetValue(Canvas.TopProperty);//aktuelle Wert wird ermittelt
 
-                if (((Spieler)currentCharacter).Posy <= 273)
-                {
+            if (((Spieler)currentCharacter).Posy <= 290)
+            {
                 ((Spieler)currentCharacter).CanvasSpieler.SetValue(Canvas.TopProperty, ((Spieler)currentCharacter).Posy + ((Spieler)currentCharacter).Gravity);
-                }
+            }
+            #endregion
+
+            enemy.Posx = (double)enemy.CanvasSpieler.GetValue(Canvas.LeftProperty);
+            enemy.Posy = (double)enemy.CanvasSpieler.GetValue(Canvas.TopProperty);
+
+            enemy.CanvasSpieler.SetValue(Canvas.LeftProperty, enemy.Posx + enemy.Speed);//bombe läüft
+
+            //Hier wurde Position von Bombo geändert und Speed erhöht
+            if (enemy.Posx >= 740)
+            {
+                enemy.CanvasSpieler.SetValue(Canvas.LeftProperty, enemy.Posx = 0);
+
+                Random random = new Random();
+                int randomTopValue = random.Next(0, 250); // Generiert eine zufällige Ganzzahl im Bereich von 0 bis 250
+
+                enemy.CanvasSpieler.SetValue(Canvas.TopProperty, enemy.Posy = randomTopValue);
+                enemy.Speed += 0.5;
+
+            }
+            lochPostionChange();
+            Loch.Width += 0.01;
+            Loch.Height += 0.01;
+            double LochY = Canvas.GetTop(Loch);
+            Canvas.SetTop(Loch, (LochY - 0.001));
 
 
-                bombe.Posx = (double)bombe.CanvasSpieler.GetValue(Canvas.LeftProperty);
-                bombe.Posy = (double)bombe.CanvasSpieler.GetValue(Canvas.TopProperty);
-                
-                bombe.CanvasSpieler.SetValue(Canvas.LeftProperty, bombe.Posx + bombe.Speed);//bombe läüft
 
-                //Hier wurde Position von Bombo geändert und Speed erhöht
-                if (bombe.Posx >= 740)
-                {
-                    bombe.CanvasSpieler.SetValue(Canvas.LeftProperty, bombe.Posx = 0);
+            #region Wenn bombe mit Spieler berührt, dann gameover 
+            if (Canvas.GetLeft(((Spieler)currentCharacter).CanvasSpieler) + ((Spieler)currentCharacter).CanvasSpieler.ActualWidth >= Canvas.GetLeft(enemy.CanvasSpieler)
+            && Canvas.GetLeft(((Spieler)currentCharacter).CanvasSpieler) <= Canvas.GetLeft(enemy.CanvasSpieler) + enemy.CanvasSpieler.ActualWidth
+            && Canvas.GetTop(((Spieler)currentCharacter).CanvasSpieler) + ((Spieler)currentCharacter).CanvasSpieler.ActualHeight >= Canvas.GetTop(enemy.CanvasSpieler)
+            && Canvas.GetTop(((Spieler)currentCharacter).CanvasSpieler) <= Canvas.GetTop(enemy.CanvasSpieler) + enemy.CanvasSpieler.ActualHeight)
+            {
 
-                    Random random = new Random();
-                    int randomTopValue = random.Next(0, 250); // Generiert eine zufällige Ganzzahl im Bereich von 0 bis 250
-
-                    bombe.CanvasSpieler.SetValue(Canvas.TopProperty, bombe.Posy = randomTopValue);
-                    bombe.Speed += 0.1;
-
-                }
-
-                #region Wenn bombe mit Spieler berührt, dann gameover 
-                if (Canvas.GetLeft(((Spieler)currentCharacter).CanvasSpieler) + ((Spieler)currentCharacter).CanvasSpieler.ActualWidth >= Canvas.GetLeft(bombe.CanvasSpieler)
-                && Canvas.GetLeft(((Spieler)currentCharacter).CanvasSpieler) <= Canvas.GetLeft(bombe.CanvasSpieler) + bombe.CanvasSpieler.ActualWidth
-                && Canvas.GetTop(((Spieler)currentCharacter).CanvasSpieler) + ((Spieler)currentCharacter).CanvasSpieler.ActualHeight >= Canvas.GetTop(bombe.CanvasSpieler)
-                && Canvas.GetTop(((Spieler)currentCharacter).CanvasSpieler) <= Canvas.GetTop(bombe.CanvasSpieler) + bombe.CanvasSpieler.ActualHeight)
-                {
-
-                    timer.Stop();
-                    //Fehler mit bereits ein untergeordnetes Element zu beheben
-                    MainGrid.Children.Remove(gameOver.GameOverFenster);
-                    CanvesSpielerContainer.Children.Clear();
-                    MainGrid.Children.Add(gameOver.GameOverFenster);
-                    replayButtonErstellen();
+                timer.Stop();
+                //Fehler mit bereits ein untergeordnetes Element zu beheben
+                MainGrid.Children.Remove(gameOver.GameOverFenster);
+                CanvesSpielerContainer.Children.Clear();
+                MainGrid.Children.Add(gameOver.GameOverFenster);
+                replayButtonErstellen();
 
             }
             //    if (Canvas.GetLeft(albedo.CanvasSpieler) + albedo.CanvasSpieler.ActualWidth >= Canvas.GetLeft(bombe.CanvasSpieler)
@@ -159,39 +168,7 @@ namespace Vererben4__Bakken_
                     replayButtonErstellen();
                 }
             }
-            //if (IsCharacterInHole(albedo.CanvasSpieler, Loch))
-            //{
-            //    if (CanvesSpielerContainer.Children.Contains(albedo.CanvasSpieler))
-            //    {
-            //        timer.Stop();
-            //        CanvesSpielerContainer.Children.Clear();
-            //        MainGrid.Children.Clear();
-            //        MainGrid.Children.Add(gameOver.GameOverFenster);
-            //        replayButtonErstellen();
-            //    }
-            //}
-            //if (IsCharacterInHole(raidenShogun.CanvasSpieler, Loch))
-            //{
-            //    if (CanvesSpielerContainer.Children.Contains(raidenShogun.CanvasSpieler))
-            //    {
-            //        timer.Stop();
-            //        CanvesSpielerContainer.Children.Clear();
-            //        MainGrid.Children.Clear();
-            //        MainGrid.Children.Add(gameOver.GameOverFenster);
-            //        replayButtonErstellen();
-            //    }
-            //}
-            //if (IsCharacterInHole(yaeMiko.CanvasSpieler, Loch))
-            //{
-            //    if (CanvesSpielerContainer.Children.Contains(yaeMiko.CanvasSpieler))
-            //    {
-            //        timer.Stop();
-            //        CanvesSpielerContainer.Children.Clear();
-            //        MainGrid.Children.Clear();
-            //        MainGrid.Children.Add(gameOver.GameOverFenster);
-            //        replayButtonErstellen();
-            //    }
-            //}
+           
 
         }
         private bool IsCharacterInHole(Canvas characterCanvas, Ellipse hole)
@@ -203,6 +180,8 @@ namespace Vererben4__Bakken_
             return characterRect.IntersectsWith(holeRect);
         }
         #endregion
+        
+       
 
         #region Charakter KeyControl 
         private void Canvas_KeyDown(object sender, KeyEventArgs e)
@@ -243,7 +222,7 @@ namespace Vererben4__Bakken_
                 {
                     ((Spieler)currentCharacter).CanvasSpieler.SetValue(Canvas.TopProperty, ((Spieler)currentCharacter).Posy = 0);
                 }
-                if (((Spieler)currentCharacter).Posy > 275)//unten
+                if (((Spieler)currentCharacter).Posy > 290)//unten
                 {
                     ((Spieler)currentCharacter).CanvasSpieler.SetValue(Canvas.TopProperty, ((Spieler)currentCharacter).Posy = 275);
                 }
@@ -361,38 +340,50 @@ namespace Vererben4__Bakken_
         #region Charkter in Canvas erstellen
         private void LblAether_MD(object sender, MouseButtonEventArgs e)
         {
-            //Hier mache ich Warnung wegen
+            SelectedBorder.Visibility = Visibility.Visible;
+            SelectedBorder.Margin = new Thickness(8, 0, 0, 0);
+
             MainGrid.Children.Clear();
             aether.Zeichnen();
             CanvesSpielerContainer.Children.Clear();//löschte vorherige Figur und bombe
-            //currentCharacter = aether;
+            currentCharacter = aether;
             CanvesSpielerContainer.Children.Add(aether.CanvasSpieler);
         }
 
         private void LblAlbedo_MD(object sender, MouseButtonEventArgs e)
         {
+            SelectedBorder.Visibility = Visibility.Visible;
+            SelectedBorder.Margin = new Thickness(87, 0, 0, 0);
+
+
             MainGrid.Children.Clear();
             albedo.Zeichnen();
             CanvesSpielerContainer.Children.Clear();
-           // currentCharacter = albedo;
+            currentCharacter = albedo;
             CanvesSpielerContainer.Children.Add(albedo.CanvasSpieler);
         }
 
         private void LblRaidenShogun_MD(object sender, MouseButtonEventArgs e)
         {
+            SelectedBorder.Visibility = Visibility.Visible;
+            SelectedBorder.Margin = new Thickness(167, 0, 0, 0);
+
             MainGrid.Children.Clear();
             raidenShogun.Zeichnen();
             CanvesSpielerContainer.Children.Clear();
-           // currentCharacter = raidenShogun;
+            currentCharacter = raidenShogun;
             CanvesSpielerContainer.Children.Add(raidenShogun.CanvasSpieler);
         }
 
         private void LblYaeMiko_MD(object sender, MouseButtonEventArgs e)
         {
-          //  MainGrid.Children.Clear();
+            SelectedBorder.Visibility = Visibility.Visible;
+            SelectedBorder.Margin = new Thickness(247, 0, 0, 0);
+
+            MainGrid.Children.Clear();
             yaeMiko.Zeichnen();
             CanvesSpielerContainer.Children.Clear();
-           // currentCharacter = yaeMiko;
+            currentCharacter = yaeMiko;
             CanvesSpielerContainer.Children.Add(yaeMiko.CanvasSpieler);
         }
         #endregion
@@ -421,13 +412,15 @@ namespace Vererben4__Bakken_
 
                 Counter_Tick.Content = Convert.ToString(counter);
                 timer.Start();
-                bombe.Zeichnen();
-                CanvesSpielerContainer.Children.Remove(bombe.CanvasSpieler);
-                CanvesSpielerContainer.Children.Add(bombe.CanvasSpieler);
-                Container.Children.Remove(LblAether);
-                Container.Children.Remove(LblAlbedo);
-                Container.Children.Remove(LblRaidenShogun);
-                Container.Children.Remove(LblYaeMiko);
+                enemy.Zeichnen();
+                CanvesSpielerContainer.Children.Remove(enemy.CanvasSpieler);
+                CanvesSpielerContainer.Children.Add(enemy.CanvasSpieler);
+                //Container.Children.Remove(LblAether);
+                //Container.Children.Remove(LblAlbedo);
+                //Container.Children.Remove(LblRaidenShogun);
+                //Container.Children.Remove(LblYaeMiko);
+
+                ContainerBorder.Visibility = Visibility.Hidden;
                 Name.Visibility = Visibility.Hidden;
                 Loch.Visibility = Visibility.Visible;
                 GridCharacterInfo.Visibility = Visibility.Hidden;
@@ -498,12 +491,17 @@ namespace Vererben4__Bakken_
             counter = 0;
             MainGrid.Children.Clear();
             Loch.Visibility = Visibility.Hidden;
-            Canvas.SetLeft(Container, 250);
-            Canvas.SetTop(Container, 110);
-            Container.Children.Add(LblAether);
-            Container.Children.Add(LblAlbedo);
-            Container.Children.Add(LblRaidenShogun);
-            Container.Children.Add(LblYaeMiko);
+
+            Canvas.SetLeft(ContainerBorder, 250);
+            Canvas.SetTop(ContainerBorder, 110);
+
+            ContainerBorder.Visibility = Visibility.Visible;
+
+            //Container.Children.Add(LblAether);
+            //Container.Children.Add(LblAlbedo);
+            //Container.Children.Add(LblRaidenShogun);
+            //Container.Children.Add(LblYaeMiko);
+  
 
             Canvas.SetLeft(StartButton, 0);
             Canvas.SetTop(StartButton, 373);
@@ -548,15 +546,57 @@ namespace Vererben4__Bakken_
                     currentCharacter = yaeMiko;
                     break;
                 default:
-                    // Handle ungültige Eingaben hier
+                    currentCharacter = aether;
                     break;
             }
             CharcterInfoBoxUpdate();
+        }
+       
+        private bool isMovingRight = true;
+        private double speed = 5;
+
+        private async void lochPostionChange()
+        {
+            
+            double LochX = Canvas.GetLeft(Loch);
+
+            if (isMovingRight)
+            {
+                if (LochX <= 700) // Wenn LochX kleiner oder gleich 700 ist
+                {
+                    Loch.SetValue(Canvas.LeftProperty, LochX + speed); // Erhöhe LochX um 100
+                }
+                else
+                {
+                    await Task.Delay(2000); // Warte 2 Sekunden
+                    isMovingRight = false; // Kehre um und gehe nach links
+                }
+            }
+            else
+            {
+                if (LochX >= 0) // Wenn LochX größer oder gleich 0 ist
+                {
+                    Loch.SetValue(Canvas.LeftProperty, LochX - speed); // Verringere LochX um 100
+                }
+                else
+                {
+                    await Task.Delay(1000); // Warte 1 Sekunden
+                    isMovingRight = true; // Kehre um und gehe nach rechts
+                }
+            }
         }
 
         #region Charakter Info anzeigen
         private void LblAether_MouseEnter(object sender, MouseEventArgs e)
         {
+            LblAether.Background = new ImageBrush()
+            {
+                ImageSource = new BitmapImage(new Uri( @"Icon2/Aether_Item2.jpg",UriKind.Relative)),
+                Stretch = Stretch.Uniform
+            };
+
+
+
             GridCharacterInfo.Visibility = Visibility.Visible;
             if(charakterInfoPostionChange == false) { 
             Canvas.SetLeft(GridCharacterInfo, 435);
@@ -574,6 +614,12 @@ namespace Vererben4__Bakken_
         
         private void LblAlbedo_MouseEnter(object sender, MouseEventArgs e)
         {
+            LblAlbedo.Background = new ImageBrush()
+            {
+                ImageSource = new BitmapImage(new Uri(@"Icon2/Albedo_Item2.jpg", UriKind.Relative)),
+                Stretch = Stretch.Uniform
+            };
+
             GridCharacterInfo.Visibility = Visibility.Visible;
             if (charakterInfoPostionChange == false)
             {
@@ -591,6 +637,11 @@ namespace Vererben4__Bakken_
 
         private void LblRaidenShogun_MouseEnter(object sender, MouseEventArgs e)
         {
+            LblRaidenShogun.Background = new ImageBrush()
+            {
+                ImageSource = new BitmapImage(new Uri(@"Icon2/RaidenShogen_Item2.jpg", UriKind.Relative)),
+                Stretch = Stretch.Uniform
+            };
             GridCharacterInfo.Visibility = Visibility.Visible;
             if (charakterInfoPostionChange == false)
             {
@@ -608,6 +659,11 @@ namespace Vererben4__Bakken_
 
         private void LblYaeMiko_MouseEnter(object sender, MouseEventArgs e)
         {
+            LblYaeMiko.Background = new ImageBrush()
+            {
+                ImageSource = new BitmapImage(new Uri(@"Icon2/YaeMiko_Item2.jpg", UriKind.Relative)),
+                Stretch = Stretch.Uniform
+            };
 
             GridCharacterInfo.Visibility = Visibility.Visible;
             if (charakterInfoPostionChange == false)
@@ -627,7 +683,6 @@ namespace Vererben4__Bakken_
 
         private void CharcterInfoBoxUpdate()
         {
-                // Typumwandlung, um auf die Eigenschaft zuzugreifen
                 LbNameCharacterInfo.Content = currentCharacterName;
                 // Hier mache ich negative zahl zu positiv
                 LbSpeedCharacterInfo.Content = Math.Abs(((Spieler)currentCharacter).Speed);
@@ -637,23 +692,43 @@ namespace Vererben4__Bakken_
         #region ChrakterInfo verstecken, wenn Maus wegen von Charakter Label ist
         private void LblAether_MouseLeave(object sender, MouseEventArgs e)
         {
+            LblAether.Background = new ImageBrush()
+            {
+                ImageSource = new BitmapImage(new Uri(@"Icon/Aether_Item.png", UriKind.Relative)),
+                Stretch = Stretch.Uniform
+            };
             GridCharacterInfo.Visibility = Visibility.Hidden;
 
         }
 
         private void LblAlbedo_MouseLeave(object sender, MouseEventArgs e)
         {
+            LblAlbedo.Background = new ImageBrush()
+            {
+                ImageSource = new BitmapImage(new Uri(@"Icon/Albedo_Item.png", UriKind.Relative)),
+                Stretch = Stretch.Uniform
+            };
             GridCharacterInfo.Visibility = Visibility.Hidden;
         }
 
         private void LblRaidenShogun_MouseLeave(object sender, MouseEventArgs e)
         {
+            LblRaidenShogun.Background = new ImageBrush()
+            {
+                ImageSource = new BitmapImage(new Uri(@"Icon/RaidenShogen_Item.png", UriKind.Relative)),
+                Stretch = Stretch.Uniform
+            };
             GridCharacterInfo.Visibility = Visibility.Hidden;
 
         }
 
         private void LblYaeMiko_MouseLeave(object sender, MouseEventArgs e)
         {
+            LblYaeMiko.Background = new ImageBrush()
+            {
+                ImageSource = new BitmapImage(new Uri(@"Icon/YaeMiko_Item.png", UriKind.Relative)),
+                Stretch = Stretch.Uniform
+            };
             GridCharacterInfo.Visibility = Visibility.Hidden;
         }
         #endregion
@@ -686,6 +761,24 @@ namespace Vererben4__Bakken_
                     Height = 20,
                     Width = 20,
                 };
+            }
+        }
+
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+            e.Handled = true;
+        }
+
+        private void DetailButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(GridDetails.Visibility != Visibility.Visible) 
+            {
+            GridDetails.Visibility = Visibility.Visible;
+            }
+            else 
+            {
+                GridDetails.Visibility = Visibility.Hidden;
             }
         }
     }

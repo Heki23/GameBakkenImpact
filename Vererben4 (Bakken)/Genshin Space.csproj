@@ -57,7 +57,7 @@
     </ApplicationDefinition>
     <Compile Include="Characters\Aether.cs" />
     <Compile Include="Characters\Albedo.cs" />
-    <Compile Include="traps\Bombe.cs" />
+    <Compile Include="traps\Enemy.cs" />
     <Compile Include="GameOver.cs" />
     <Compile Include="Characters\RaidenShogun.cs" />
     <Compile Include="Spieler.cs" />
@@ -102,18 +102,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Characters\Icon\Aether_Item.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Characters\Icon\Albedo_Item.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Characters\Icon\Raiden_Shogun_Item.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Characters\Icon\Yae_Miko_Item.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Characters\Aether.png" />
     <Resource Include="Characters\Albedo.png" />
     <Resource Include="Characters\RaidenShogun.png" />
@@ -138,6 +126,8 @@
     <Resource Include="background2.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="YaeMiko_Item.png" />
+    <Resource Include="RaidenShogen_Item.png" />
     <Resource Include="mute.png" />
     <Resource Include="unmute.png" />
     <Resource Include="Background\background%281%29.jpg" />
@@ -146,9 +136,21 @@
     <Resource Include="Background\background%284%29.jpg" />
     <Resource Include="Background\background%285%29.png" />
     <Resource Include="Background\SHintergrund.png" />
+    <Resource Include="Aether_Item.png" />
+    <Resource Include="Albedo_Item.png" />
     <Content Include="battlesound.mp3" />
     <Resource Include="Background\loadingscreen.jpg" />
+    <Resource Include="Characters\Icon\Aether_Item.png" />
+    <Resource Include="Characters\Icon\Albedo_Item.png" />
+    <Resource Include="Characters\Icon\RaidenShogen_Item.png" />
+    <Resource Include="Characters\Icon\YaeMiko_Item.png" />
+    <Resource Include="Characters\Icon2\Aether_Item2.jpg" />
+    <Resource Include="Characters\Icon2\Albedo_Item2.jpg" />
+    <Resource Include="Characters\Icon2\RaidenShogen_Item2.jpg" />
+    <Resource Include="Characters\Icon2\YaeMiko_Item2.jpg" />
+    <Resource Include="detail icon.png" />
     <Content Include="LoadingScreen.mp3" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
