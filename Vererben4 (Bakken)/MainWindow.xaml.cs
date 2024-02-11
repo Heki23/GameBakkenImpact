@@ -417,6 +417,7 @@ namespace Vererben4__Bakken_
                     ImageSource = new BitmapImage(new Uri(@"Background/background(1).jpg", UriKind.Relative)),
                     Stretch = Stretch.UniformToFill // Dies stellt sicher, dass das Bild den gesamten Button abdeckt
                 };
+                GridDetails.Visibility = Visibility.Hidden;
                 DetailButton.Visibility = Visibility.Hidden;
                 Counter_Tick.Content = Convert.ToString(counter);
                 timer.Start();
@@ -562,7 +563,7 @@ namespace Vererben4__Bakken_
         }
        
         private bool isMovingRight = true;
-        private double speed = 5;
+        private double speed = 2;
         private async void lochPostionChange()
         {
             
