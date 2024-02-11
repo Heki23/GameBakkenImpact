@@ -126,6 +126,8 @@
     <Resource Include="background2.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="traps\enemy2.png" />
+    <Resource Include="traps\enemy3.png" />
     <Resource Include="YaeMiko_Item.png" />
     <Resource Include="RaidenShogen_Item.png" />
     <Resource Include="mute.png" />
@@ -149,6 +151,7 @@
     <Resource Include="Characters\Icon2\RaidenShogen_Item2.jpg" />
     <Resource Include="Characters\Icon2\YaeMiko_Item2.jpg" />
     <Resource Include="detail icon.png" />
+    <Resource Include="gitavater.jpg" />
     <Content Include="LoadingScreen.mp3" />
   </ItemGroup>
   <ItemGroup />

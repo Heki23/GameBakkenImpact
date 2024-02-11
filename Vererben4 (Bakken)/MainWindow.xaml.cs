@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading;
@@ -41,6 +42,9 @@ namespace Vererben4__Bakken_
         private object currentCharacter; // Hier speichern wir das aktuelle Charakterobjekt
         private string currentCharacterName;
         private bool charakterInfoPostionChange = false;
+        private int enemyRandom;
+
+
 
         public MainWindow()
         {
@@ -89,7 +93,11 @@ namespace Vererben4__Bakken_
 
                 Random random = new Random();
                 int randomTopValue = random.Next(0, 250); // Generiert eine zufällige Ganzzahl im Bereich von 0 bis 250
+                Random enemyrandom = new Random();
+               
 
+                enemyRandom = enemyrandom.Next(1, 5); // Generates a random number between 1 and 4 (inclusive).
+                enemy.UpdateImage(enemyRandom);
                 enemy.CanvasSpieler.SetValue(Canvas.TopProperty, enemy.Posy = randomTopValue);
                 enemy.Speed += 0.5;
 
@@ -409,7 +417,7 @@ namespace Vererben4__Bakken_
                     ImageSource = new BitmapImage(new Uri(@"Background/background(1).jpg", UriKind.Relative)),
                     Stretch = Stretch.UniformToFill // Dies stellt sicher, dass das Bild den gesamten Button abdeckt
                 };
-
+                DetailButton.Visibility = Visibility.Hidden;
                 Counter_Tick.Content = Convert.ToString(counter);
                 timer.Start();
                 enemy.Zeichnen();
@@ -491,6 +499,7 @@ namespace Vererben4__Bakken_
             counter = 0;
             MainGrid.Children.Clear();
             Loch.Visibility = Visibility.Hidden;
+            DetailButton.Visibility = Visibility.Visible;
 
             Canvas.SetLeft(ContainerBorder, 250);
             Canvas.SetTop(ContainerBorder, 110);
@@ -554,7 +563,6 @@ namespace Vererben4__Bakken_
        
         private bool isMovingRight = true;
         private double speed = 5;
-
         private async void lochPostionChange()
         {
             
@@ -774,12 +782,50 @@ namespace Vererben4__Bakken_
         {
             if(GridDetails.Visibility != Visibility.Visible) 
             {
-            GridDetails.Visibility = Visibility.Visible;
+                LoadImage();
+                GridDetails.Visibility = Visibility.Visible;
             }
             else 
             {
                 GridDetails.Visibility = Visibility.Hidden;
             }
         }
+        #region Detail Profile Foto
+        private void LoadImage()
+        {
+            string imageUrl = "https://avatars.githubusercontent.com/u/148544190?v=4";
+            string localImagePath = "gitavater.jpg";
+
+            //Hier überprüfe ich, ob Internet verfügbar ist
+            if (CheckInternetConnection())
+            {
+                    // Git Avater URL
+                    ImageBrush imageBrush = new ImageBrush(new BitmapImage(new Uri(imageUrl)));
+                    ProfilePhoto.Fill = imageBrush;           
+            }
+            else
+            {
+                // lokal bild falls keine Internet ist
+                ImageBrush localImageBrush = new ImageBrush(new BitmapImage(new Uri(localImagePath, UriKind.Relative)));
+                ProfilePhoto.Fill = localImageBrush;
+            }
+        }
+
+        private bool CheckInternetConnection()
+        {
+            try
+            {
+                using (var client = new WebClient())
+                using (client.OpenRead("http://clients3.google.com/generate_204"))
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        #endregion
     }
 }

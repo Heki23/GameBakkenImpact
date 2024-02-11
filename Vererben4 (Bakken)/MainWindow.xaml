@@ -132,25 +132,26 @@
                     <Image Source="/detail icon.png" Height="40" Width="40"></Image>
                 </Button.Content>
             </Button>
-            <Grid x:Name="GridDetails" Canvas.Left="545" Canvas.Top="212" HorizontalAlignment="Center" VerticalAlignment="Top" Visibility="Hidden">
-                <Rectangle  Width="190" Height="100" Fill="White" Stroke="Black" StrokeThickness="2" Opacity="0.8" Canvas.Left="597" Canvas.Top="97">
+            <Grid x:Name="GridDetails" Canvas.Left="535" Canvas.Top="212" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden">
+                <Rectangle  Width="200" Height="100" Fill="White" Stroke="Black" StrokeThickness="2" Opacity="0.8" Canvas.Left="597" Canvas.Top="97">
                     <Rectangle.RadiusX>10</Rectangle.RadiusX>
                     <Rectangle.RadiusY>10</Rectangle.RadiusY>
                 </Rectangle>
-                <Grid  Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Width="180" Height="70">
+                <Grid  Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Width="190" Height="70">
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="90"></ColumnDefinition>
+                        <ColumnDefinition Width="40"></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Label  Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Content="Developer:" FontWeight="Bold" FontSize="14" />
                     <Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Content="Status:" FontWeight="Bold" FontSize="14" />
-
-
-                    <Label x:Name="LbDeveloper" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" FontSize="17" >
+                   
+                    <Ellipse x:Name="ProfilePhoto" Height="35" Width="35" Grid.Column="1"/>
+                    <Label x:Name="LbDeveloper" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" FontSize="15" >
                         <Hyperlink NavigateUri="https://github.com/Heki23" RequestNavigate="Hyperlink_RequestNavigate">
                             Heki23
                         </Hyperlink>
