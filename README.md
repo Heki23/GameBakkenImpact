@@ -28,9 +28,6 @@ Contributions are always welcome!
 
 see `contributing.md` for ways to get started
 
-### :scroll: Code of Conduct
-
-Please read the [Code of Conduct](https://github.com/Heki23/GameGenshinSpace/blob/master/CODE_OF_CONDUCT.md)
 
 ## :handshake: Contact
 
